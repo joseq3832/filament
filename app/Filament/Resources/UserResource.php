@@ -46,6 +46,7 @@ class UserResource extends Resource
                 ImageColumn::make('filament_avatar_url')->label('Imagen')->toggleable(),
                 TextColumn::make('name')->label('Nombre')->sortable()->searchable(),
                 TextColumn::make('email')->label('Email')->sortable()->searchable(),
+                TextColumn::make('user.roles')->label('Rol/s'),
                 TextColumn::make('created_at')->dateTime('j \d\e M, Y')->label('Creado el')->toggleable(),
             ])
             ->filters([

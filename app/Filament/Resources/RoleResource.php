@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource\RelationManagers;
+use App\Filament\Resources\RoleResource\RelationManagers\PermissionsRelationManager;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\CheckboxList;
@@ -32,7 +33,7 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    TextInput::make('name')->unique()->required(),
+                    TextInput::make('name')->unique(ignoreRecord: true)->required(),
                     TextInput::make('description')->required(),
                     CheckboxList::make('permissions')
                         ->required()
@@ -67,7 +68,7 @@ class RoleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PermissionsRelationManager::class,
         ];
     }
 
