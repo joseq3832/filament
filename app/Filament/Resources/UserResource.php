@@ -12,9 +12,9 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +46,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->sortable()->toggleable(),
                 TextColumn::make('name')->label('Nombre')->sortable()->searchable(),
                 TextColumn::make('email')->label('Email')->sortable()->searchable(),
-                ToggleColumn::make('email_verified_at')->disableClick(),
+                IconColumn::make('email_verified_at')->boolean(),
                 TextColumn::make('roles.description')->label('Rol/s'),
                 TextColumn::make('created_at')->dateTime('j \d\e M, Y')->label('Creado el')->toggleable(),
             ])
