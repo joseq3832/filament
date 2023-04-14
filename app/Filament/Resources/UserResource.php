@@ -14,6 +14,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -43,10 +44,10 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable()->toggleable(),
-                ImageColumn::make('filament_avatar_url')->label('Imagen')->toggleable(),
                 TextColumn::make('name')->label('Nombre')->sortable()->searchable(),
                 TextColumn::make('email')->label('Email')->sortable()->searchable(),
-                TextColumn::make('user.roles')->label('Rol/s'),
+                ToggleColumn::make('email_verified_at')->disableClick(),
+                TextColumn::make('roles.description')->label('Rol/s'),
                 TextColumn::make('created_at')->dateTime('j \d\e M, Y')->label('Creado el')->toggleable(),
             ])
             ->filters([
