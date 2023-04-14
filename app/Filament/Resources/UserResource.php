@@ -46,7 +46,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->sortable()->toggleable(),
                 TextColumn::make('name')->label('Nombre')->sortable()->searchable(),
                 TextColumn::make('email')->label('Email')->sortable()->searchable(),
-                IconColumn::make('email_verified_at')->boolean(),
+                IconColumn::make('email_verified_at')->label('Email verificado')->boolean(),
                 TextColumn::make('roles.description')->label('Rol/s'),
                 TextColumn::make('created_at')->dateTime('j \d\e M, Y')->label('Creado el')->toggleable(),
             ])
