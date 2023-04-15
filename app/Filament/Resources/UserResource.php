@@ -3,9 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Pages\Page;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -19,12 +25,13 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function getGlobalSearchResultTitle(Model $record): string
     {
@@ -35,7 +42,35 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make()->schema([
+                    TextInput::make('name')
+                        ->required(),
+                    TextInput::make('email')
+                        ->email()
+                        ->required(),
+                    TextInput::make('password')
+                        ->password()
+                        ->dehydrateStateUsing(
+                            static fn (null|string $state): null|string =>
+                            filled(
+                                $state ? Hash::make($state) : null,
+                            )
+                        )->required(
+                            static fn (Page $livewire): string =>
+                            $livewire instanceof CreateUser,
+                        )->maxLength(255)
+                        ->dehydrated(
+                            static fn (null|string $state): bool =>
+                            filled($state),
+                        )->label(
+                            static fn (Page $livewire): string =>
+                            ($livewire instanceof EditUser) ? 'Nueva contraseña' : 'Contraseña'
+                        ),
+                    Select::make('roles')
+                        ->required()
+                        ->multiple()
+                        ->relationship('roles', 'description'),
+                ])
             ]);
     }
 
